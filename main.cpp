@@ -11,6 +11,9 @@
 #include "WordSearch_NotZigZag.cpp"
 #include "FlowerPotAdjacent1s.cpp"
 #include "JosephusProblem.cpp"
+#include "WordBreak.cpp"
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     
@@ -21,5 +24,8 @@ int main(int argc, const char * argv[]) {
     Flowerpots_Adjacent1s::Test_Flowerpots_Adjacent1s();
     
     JosephusProblem::Test_JosephusProblem();
+    
+    WordBreak::Test_WordBreak();
+    
     return 0;
 }
