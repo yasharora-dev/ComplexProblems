@@ -85,7 +85,7 @@ public:
     static bool WordBreak_BtmUpDP(string pat, vector<string> &dict)
     {
         int size = pat.size();
-        
+        //to compare strings faster
         unordered_set<string> dictSet;
         
         for(auto word: dict)
@@ -98,8 +98,17 @@ public:
         vector<bool> DP(size+1);
         DP[0]=true; //empty string is always true
         
+        //for every length
         for(int len=1;len<=size;len++)
         {
+            //for every subsequence of length=len
+            
+            //here we check whether with string of length 0 ..2 (len=3)
+            //is there any combination which exits in dict
+            //for cod
+            //combiantion are 1. empty and substr starting from 0 to 2 i.e. "" and "cod"
+            //2. 0 and 1..2 i.e. "c" and "od"
+            //3. 0..1 and 2 i.e. "co" and "d"
             for(int i=0;i<len;i++)
             {
                 string str = pat.substr(i,len-i);
@@ -115,10 +124,9 @@ public:
         return DP[size];
     }
     
-    static bool WordBreak_BtmUpDP_v2(string pat, vector<string> &dict)
-    {
-        return 1;
-    }
+
+     
+    
     
     static void Test_WordBreak()
     {
