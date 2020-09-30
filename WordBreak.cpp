@@ -125,7 +125,92 @@ public:
     }
     
 
-     
+     //Space O(n^2)
+    static bool WordBreak_BtmUpDP_v2(string pat, vector<string> &dict)
+       {
+           int size = pat.size();
+           //to compare strings faster
+           unordered_set<string> dictSet;
+           
+           for(auto word: dict)
+               dictSet.insert(word);
+           
+           //edge case
+           if(size==0)
+               return true;
+           
+           vector<vector<int>> DP(size);
+           for(int i=0;i<DP.size();i++)
+           {
+               DP[i] = vector<int>(size,-1);
+           }
+           
+           
+          
+           //for every length
+           for(int len=1;len<=size;len++)
+           {
+               for(int i=0;i <= size-len;i++)
+               {
+                   int j = i+len-1;
+                   //string between i to j is in dict then true
+                   string str = pat.substr(i,len);
+                   if(dictSet.count(str)>0)
+                   {
+                       DP[i][j] = i;
+                       
+                   }
+                   else
+                   {
+                       //check for every combination between i and j such that DP[i][k] && DP[k+1][j] == true
+                       //e.g. i=0 j=2
+                      // k=1 DP[0][0] DP[1][2]
+                      // k=2 DP[0][1] DP[2][2]
+                       for(int k=i+1;k<=j;k++)
+                       {
+                           if(DP[i][k-1]!=-1 && DP[k][j]!=-1)
+                           {
+                                DP[i][j]=k;
+                                break;
+                           }
+                           
+                       }
+                   }
+                   
+                   
+               }
+               
+           }
+           
+           for(int i=0;i<size;i++)
+           {
+               for(int j=0;j<size;j++)
+               {
+                   cout<<DP[i][j]<<" ";
+               }
+               cout<<endl;
+           }
+           
+           int i=0;
+           int j=size-1;
+           int sz=size;
+           while(sz>0)
+           {
+               int k = DP[i][j];
+               if(k==sz)
+                   cout<<pat.substr(i,k+1)<<" ";
+               else
+                   cout<<pat.substr(i,k-i)<<" ";
+               
+               i = k;
+               sz = sz-k;
+               
+           }
+           return DP[0][size-1];
+       }
+       
+
+        
     
     
     static void Test_WordBreak()
@@ -153,10 +238,10 @@ public:
         string pat1 = "iamyash";
         vector<string> dict1 { "am", "as", "i", "yash"};
         
-        if(WordBreak_BtmUpDP(pat1,dict1))
-            cout<<pat1<<" word can be break into words existing in dictionary"<<endl;
+        if(WordBreak_BtmUpDP_v2(pat,dict))
+            cout<<pat<<" word can be break into words existing in dictionary"<<endl;
         else
-            cout<<pat1<<" word cannot be break into words existing in dictionary"<<endl;
+            cout<<pat<<" word cannot be break into words existing in dictionary"<<endl;
         
     }
 };
